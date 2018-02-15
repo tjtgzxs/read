@@ -1,0 +1,693 @@
+<!doctype html><!--STATUS OK-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>_笔趣阁5200站内搜索</title>
+    <link href="/static/css/default.css?v=0.9" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/gameresult.css?v=0.9" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">            //联盟广告全局变量            window.union_set_client=function(a){var c,b;for(b in a){b&&a[b]&&a.hasOwnProperty(b)&&(c=a[b]);break}a=c._html.split("|");a=/cpro_client=([a-zA-Z0-9_]+)/gi.exec(a);window.union_client=a[1]};        </script>
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/baidu-ajax.js"></script>
+    <script type="text/javascript" src="/static/js/statistic.js"></script>
+    <script>            //搜全网功能			function baidusearch(id){				var url = "http://www.baidu.com/s?ie=utf-8&cus_sid=17194782488582577862&tn=SE_pscse_053x7tyx&wd=" + encodeURIComponent(document.getElementById(id).value);				window.open(url,"_blank");                var bpos;                if (id === "kw") {                    bpos = "top";                }                else {                    bpos = "bottom";                }                var pageLog = {};                                    pageLog["q"] = "";                                    pageLog["click"] = "1";                                    pageLog["s"] = "17194782488582577862";                                    pageLog["nsid"] = "";                                    pageLog["isNeedCheckDomain"] = "";                                log.send("/api/customsearch/click", pageLog, {                    bpos: bpos,                    tid: "2",                    cc: 'bqg5200.com',                    rt: 1                });			}		</script>
+</head>
+<body>
+<div id="wrap" style="position: relative;">
+    <iframe src=http://www.bqg5200.com/sosuohead.html frameborder="0" scrolling="no"
+            style="width:100%;height:120px;border:0;overflow:hidden"></iframe>
+    <div id="head" style="" class="clearfix">
+        <div class="s_nav" style=""></div>
+        <div class='fl mt45'>
+            <form name="f" action="search" class="fm" id="bdcs-search-form"><span class="s_ipt_wr_pre"
+                                                                                  id="search_input_container">                    <input
+                    name="q" id="kw" class="s_ipt" value="" maxlength="100" autocomplete="off" style="">                    <input
+                    name="click" value="1" type="hidden">                                                                                                                                        </span>
+                <span class="s_btn_wr_pre" style="">                    <input name="s" value="17194782488582577862"
+                                                                               type="hidden">                    <input
+                        name="nsid" value="" type="hidden">                                                                                                                        <input
+                        type="submit" id="su" value="搜本站" class="s_btn_pre"
+                        onmousedown="this.className = 's_btn_pre s_btn_h'" onmouseout="this.className = 's_btn_pre'">                 </span>
+                <span class="s_btn_wr_after">                        <input type="button" id="baidusu" value="搜全网"
+                                                                            class="s_btn_after"
+                                                                            onmousedown="this.className = 's_btn_after s_btn_h'"
+                                                                            onmouseout="this.className = 's_btn_after'"
+                                                                            onclick="baidusearch('kw');">                     </span>
+            </form>
+            <ul id="bdcs-search-sug-list" class="bdcs-search-sug-list"></ul>
+        </div>
+    </div>
+    <script type="text/javascript"></script>
+    <script type="text/template" id="sugTpl">            <% for ( var i = 0; i < limit; i++ ) { %>
+    <li data-index="<%=i%>" class="bdcs-search-sug-list-item <%= (i == selectedIndex) ? "
+        bdcs-search-sug-list-item-current" : "" %>">            <span class="bdcs-search-sug-list-item-value"><%=data[i].title%></span>            </li>            <% } %>        </script>
+    <style type="text/css">            .bdcs-search-sug-list {
+        display: none;
+        border: 1px solid #DDD;
+        position: absolute;
+        z-index: 2147483647;
+        background-color: #FFF;
+    }
+
+    .bdcs-search-sug-list-item {
+        display: block;
+        list-style: none;
+        cursor: pointer;
+        padding: 0 5px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 25px;
+        line-height: 25px;
+        font-family: arial;
+        font-size: 14px;
+    }
+
+    .bdcs-search-sug-list-item-current {
+        background-color: #EBEBEB;
+    }        </style>
+    <script src="/static/js/flyjsonp.js" type="text/javascript"></script>
+    <script src="/static/js/sug-bdcs-result.js" type="text/javascript"></script>
+    <script type="text/javascript">            function _getStyle(elem, name) {
+        var inlineName = name;
+        if (elem.style.inlineName) {
+            return elem.style[inlineName];
+        } else if (window.getComputedStyle) {
+            return window.getComputedStyle(elem)[inlineName] ? window.getComputedStyle(elem)[inlineName] : document.defaultView.getComputedStyle(elem, null).getPropertyValue(inlineName);
+        } else if (elem.currentStyle) {
+            return elem.currentStyle[inlineName];
+        } else {
+            return null;
+        }
+    }
+
+    new Sug({
+        formElem: document.getElementById('bdcs-search-form'),
+        inputElem: document.getElementById('kw'),
+        sugListElem: document.getElementById('bdcs-search-sug-list'),
+        submitElem: document.getElementById('su'),
+        offset: {
+            top: parseInt(_getStyle(document.getElementById("kw"), "marginTop")),
+            left: -(parseInt(_getStyle(document.getElementById("kw"), "marginLeft")))
+        },
+        url: "http://rp.baidu.com/customer_search/api/sug",
+        param: 'wd',
+        data: {ch: "novel", rn: 10, sid: "17194782488582577862"},
+        sugListItemLimit: 10,
+        sugListWidth: parseInt(_getStyle(document.getElementById("search_input_container"), "width")),
+        tmplString: document.getElementById("sugTpl").innerHTML,
+        itemClassName: 'bdcs-search-sug-list-item',
+        currentClassName: 'bdcs-search-sug-list-item-current',
+        valueClassName: 'bdcs-search-sug-list-item-value',
+        type: 'interval',
+        completeWhenKeyUpDown: false
+    });        </script>
+    <div id="container" class="clearfix" style="">
+        <div id="aside" class="aside" style=""></div>
+        <div id="center" class="content" style="">
+            <div id="results" class="content-main" style=""><span class="support-text-top">为您找到相关结果10,028个</span>
+                <div class="result-filter">
+                    <div class="result-filter-bd">
+                        <dl class="result-filter-bd-row">
+                            <dt class="result-filter-bd-row-title"> 分类：</dt>
+                            <dd class="result-filter-bd-row-list">
+                                <ul class="result-filter-bd-row-list-inner">
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-current">
+                                        <!--  <span class="result-filter-bd-row-list-item-link">全部</span> --> <a
+                                            href="javascript:cse.util.select('genre','','filter')"
+                                            class="result-filter-bd-row-list-item-link-current ">全部</a></li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e9%83%bd%e5%b8%82%e8%a8%80%e6%83%85"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">都市言情</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e7%8e%84%e5%b9%bb%e9%ad%94%e6%b3%95"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">玄幻魔法</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e7%bd%91%e6%b8%b8%e5%8a%a8%e6%bc%ab"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">网游动漫</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e6%ad%a6%e4%be%a0%e4%bf%ae%e7%9c%9f"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">武侠修真</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e5%8e%86%e5%8f%b2%e5%86%9b%e4%ba%8b"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">历史军事</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e4%be%a6%e6%8e%a2%e6%8e%a8%e7%90%86"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">侦探推理</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e7%a7%91%e5%b9%bb%e5%b0%8f%e8%af%b4"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">科幻小说</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%30"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">0</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e9%83%bd%e5%b8%82%e5%b0%8f%e8%af%b4"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">都市小说</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e6%b8%b8%e6%88%8f%e5%b0%8f%e8%af%b4"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">游戏小说</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="genre"
+                                                                                  field="%67%65%6e%72%65%3a%e7%8e%84%e5%b9%bb%e5%b0%8f%e8%af%b4"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">玄幻小说</a>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                        <dl class="result-filter-bd-row">
+                            <dt class="result-filter-bd-row-title"> 更新状态：</dt>
+                            <dd class="result-filter-bd-row-list">
+                                <ul class="result-filter-bd-row-list-inner">
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-current">
+                                        <!--  <span class="result-filter-bd-row-list-item-link">全部</span> --> <a
+                                            href="javascript:cse.util.select('updateStatus','','filter')"
+                                            class="result-filter-bd-row-list-item-link-current ">全部</a></li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="updateStatus"
+                                                                                  field="%75%70%64%61%74%65%53%74%61%74%75%73%3a%e6%9b%b4%e6%96%b0%e4%b8%ad"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">更新中</a>
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item result-filter-bd-row-list-item-pipe">|
+                                    </li>
+                                    <li class="result-filter-bd-row-list-item"><a href="javascript:void(0)"
+                                                                                  fname="updateStatus"
+                                                                                  field="%75%70%64%61%74%65%53%74%61%74%75%73%3a%e5%ae%8c%e7%bb%93"
+                                                                                  class="result-filter-bd-row-list-item-link sc-game-select">完结</a>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <script type="text/javascript">(function () {
+                    $(".sc-game-select").click(function () {
+                        cse.util.select($(this).attr("fname"), $(this).attr("field"), "filter");
+                    });
+                })();</script>
+                <div class="result-sort-game"><a href="javascript:cse.util.select('srt','def','sort')"
+                                                 class="result-sort-item-game-first result-sort-all result-sort-current-game-first">
+                    默认 </a> <a href="javascript:cse.util.select('totalClick','totalClick','sort');"
+                               class="result-sort-item-game result-sort-all result-sort-desc"> 总点击 <i
+                        class="result-sort-item-icon">&nbsp;</i> </a> <a
+                        href="javascript:cse.util.select('dateModified','dateModified','sort');"
+                        class="result-sort-item-game result-sort-all result-sort-desc"> 更新时间 <i
+                        class="result-sort-item-icon">&nbsp;</i> </a>
+                    <!--  <a href="" class="result-sort-item result-sort-updatetime">	        更新时间	        <i class="result-sort-item-icon">&nbsp;</i>	    </a>	    <a href="" class="result-sort-item result-sort-rec">	        总推荐	        <i class="result-sort-item-icon">&nbsp;</i>	    </a> -->
+                </div>
+                <div class="result-list">
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/3/3445/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/3/3445/3445s.jpg" alt="修真聊天群"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/3/3445/" title="修真聊天群"
+                                class="result-game-item-title-link" target="_blank"> 修真聊天群 </a></h3>
+                            <p class="result-game-item-desc">
+                                某天，宋书航意外加入了一个仙侠中二病资深患者的交流群，里面的群友们都以‘道友’相称，群名片都是各种府主、洞主、真人、…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            圣骑士的传说(书坊)                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">都市小说</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-06-23</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/3/3905/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/3/3905/3905s.jpg" alt="丧尸帝君"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/3/3905/" title="丧尸帝君"
+                                class="result-game-item-title-link" target="_blank"> 丧尸帝君 </a></h3>
+                            <p class="result-game-item-desc">
+                                主角咬了一个人，那个人竟然变成了丧尸，就此，居然打造了一场末日。　　而这些丧尸，都将臣于主角麾下。　　白发血瞳的他，…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            君罪                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">科幻小说</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-02-27</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/4/4181/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/4/4181/4181s.jpg" alt="英雄联盟之七百年后"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/4/4181/" title="英雄联盟之七百年后"
+                                class="result-game-item-title-link" target="_blank"> 英雄联盟之七百年后 </a></h3>
+                            <p class="result-game-item-desc">叶澈死了，又复活了。 有点不知所谓，但事实上，他从s7赛季决赛的那天，到达了七百年后，悄无声息，仿若被那个世…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            沉入海底(书坊)                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">游戏小说</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-05-25</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/2/2384/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/2/2384/2384s.jpg" alt="误惹妖孽王爷：废材逆天四小姐"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/2/2384/" title="误惹妖孽王爷：废材逆天四小姐"
+                                class="result-game-item-title-link" target="_blank"> 误惹妖孽王爷：废材逆天四小姐 </a></h3>
+                            <p class="result-game-item-desc">
+                                她，21世纪金牌杀手，却穿为苏府最无用的废柴四小姐身上。他，帝国晋王殿下，冷酷邪魅强势霸道，武道天赋更是无与伦比。世…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            苏小暖                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">玄幻小说</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-03-04</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/2/2016/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/2/2016/2016s.jpg" alt="窃神权"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/2/2016/" title="窃神权"
+                                class="result-game-item-title-link" target="_blank"> 窃神权 </a></h3>
+                            <p class="result-game-item-desc">沧海浪退，天地灵气缓缓消散，本源显露；末法时代徐徐降临。是世界的成熟？还是衰退？ 新与旧交替，小小凡人仰观天…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            试剑天涯                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">玄幻魔法</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-05-31</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/3/3934/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/3/3934/3934s.jpg" alt="叱咤风云在都市"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/3/3934/" title="叱咤风云在都市"
+                                class="result-game-item-title-link" target="_blank"> 叱咤风云在都市 </a></h3>
+                            <p class="result-game-item-desc">
+                                当联邦第一天才灵魂穿越到另外位面遇到一个废物公子，两人相遇会擦出什么样的火花？敬请期待！　　......　　本故事纯…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            轮回成空                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">都市言情</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-10-05</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/0/513/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/0/513/513s.jpg" alt="神武飞扬"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/0/513/" title="神武飞扬"
+                                class="result-game-item-title-link" target="_blank"> 神武飞扬 </a></h3>
+                            <p class="result-game-item-desc">天真稚子沈飞，无意中得到了一个神秘的探测仪，可以辩人心，寻宝物！ 且看一个懵懂独行的少年如何谱写一段铿锵热血…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            玄雨                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">玄幻魔法</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2016-03-03</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">完结</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/0/682/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/0/682/682s.jpg" alt="铸圣庭"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/0/682/" title="铸圣庭"
+                                class="result-game-item-title-link" target="_blank"> 铸圣庭 </a></h3>
+                            <p class="result-game-item-desc">这是在秦末汉初，会诸子百家，战三教九流，斗历史名将，争江山美人的故事！ 且看无权无势，出身平凡的主角，如何周…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            邪影                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">侦探推理</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2017-06-24</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/0/589/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/0/589/589s.jpg" alt="逍遥渔夫"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/0/589/" title="逍遥渔夫"
+                                class="result-game-item-title-link" target="_blank"> 逍遥渔夫 </a></h3>
+                            <p class="result-game-item-desc">贝海，整个东海岸最成功的渔船船长，几年时间就被美国整上东海岸的渔夫们称为传奇人物。 神乎其神的找鱼手段，几乎…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            醛石                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">都市言情</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2015-11-25</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                    <div class="result-item result-game-item">
+                        <div class="result-game-item-pic"><a cpos="img" href="http://www.bqg5200.com/xiaoshuo/0/713/"
+                                                             class="result-game-item-pic-link" target="_blank"
+                                                             style="width:110px;height:150px;"> <img
+                                src="http://www.bqg5200.com/files/article/image/0/713/713s.jpg" alt="回到过去当作家"
+                                class="result-game-item-pic-link-img"
+                                onerror="$(this).attr('src', '/static/img/novel-noimg.jpg')"> </a></div>
+                        <div class="result-game-item-detail"><h3 class="result-item-title result-game-item-title"><a
+                                cpos="title" href="http://www.bqg5200.com/xiaoshuo/0/713/" title="回到过去当作家"
+                                class="result-game-item-title-link" target="_blank"> 回到过去当作家 </a></h3>
+                            <p class="result-game-item-desc">重生平行世界，掀起一场史无前例的文字风暴！ ———— 书友交流群：414563591 欢迎入…</p>
+                            <div class="result-game-item-info"><p class="result-game-item-info-tag"><span
+                                    class="result-game-item-info-tag-title preBold">作者：</span> <span>                                                                            月下屠龙                                                                    </span>
+                            </p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">类型：</span> <span
+                                        class="result-game-item-info-tag-title">都市言情</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新时间：</span> <span
+                                        class="result-game-item-info-tag-title">2017-05-20</span></p>
+                                <p class="result-game-item-info-tag"><span
+                                        class="result-game-item-info-tag-title preBold">更新状态：</span> <span
+                                        class="result-game-item-info-tag-title">更新中</span></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra">
+            <div id="right"></div>
+        </div>
+    </div>
+</div>
+<i clear="all"></i>
+<div id="footer" class="clearfix" style="">
+    <div class="pager clearfix" id="pageFooter"><strong> <span class="fk fk_cur">                    <i
+            class="c-icon c-icon-bear-p"></i>                </span> <span class="pager-current-foot">1</span> </strong>
+        <a href="search?q=&p=1&s=17194782488582577862&nsid="> <span class="fk fkd">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">2</span> </a> <a href="search?q=&p=2&s=17194782488582577862&nsid="> <span
+                class="fk">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">3</span> </a> <a href="search?q=&p=3&s=17194782488582577862&nsid="> <span
+                class="fk fkd">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">4</span> </a> <a href="search?q=&p=4&s=17194782488582577862&nsid="> <span
+                class="fk">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">5</span> </a> <a href="search?q=&p=5&s=17194782488582577862&nsid="> <span
+                class="fk fkd">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">6</span> </a> <a href="search?q=&p=6&s=17194782488582577862&nsid="> <span
+                class="fk">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">7</span> </a> <a href="search?q=&p=7&s=17194782488582577862&nsid="> <span
+                class="fk fkd">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">8</span> </a> <a href="search?q=&p=8&s=17194782488582577862&nsid="> <span
+                class="fk">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">9</span> </a> <a href="search?q=&p=9&s=17194782488582577862&nsid="> <span
+                class="fk fkd">                                                            <i
+                class="c-icon c-icon-bear-pn"></i>                            </span> <span
+                class="pager-normal-foot">10</span> </a> <a href="search?q=&p=1&s=17194782488582577862&nsid="
+                                                            class="pager-next-foot n">下一页&gt;</a></div>
+    <div id="BottomBox" style="">
+        <form name="f2" action="search" class="fm"><span class="s_ipt_wr_pre floatLeft">              <input name="q"
+                                                                                                             id="kw2"
+                                                                                                             class="s_ipt"
+                                                                                                             value=""
+                                                                                                             maxlength="100"
+                                                                                                             autocomplete="off"
+                                                                                                             style="">                                                                                                                                    </span>
+            <span class="s_btn_wr_pre floatLeft" style="">                <input name="s" value="17194782488582577862"
+                                                                                 type="hidden">							                <input
+                    name="nsid" value="" type="hidden">                                <input type="submit" id="su"
+                                                                                              value="搜本站"
+                                                                                              class="s_btn_pre"
+                                                                                              onmousedown="this.className='s_btn_pre s_btn_h'"
+                                                                                              onmouseout="this.className='s_btn_pre'">            </span>
+            <span class="s_btn_wr_after floatLeft">                <input type="button" id="baidusu" value="搜全网"
+                                                                          class="s_btn_after"
+                                                                          onmousedown="this.className='s_btn_after s_btn_h'"
+                                                                          onmouseout="this.className='s_btn_after'"
+                                                                          onclick="baidusearch('kw2');">            </span>
+            <span class="support-text leftSpan">搜索技术由</span> <a href="http://zn.baidu.com" target="_blank"><span
+                    class="support-logo" style="margin-top: 10px;"></span></a> <span class="support-text">提供</span>
+        </form>
+        <form id="f3" name="f3" action="search"><input type="hidden" name="q" value=""> <input type="hidden" name="s"
+                                                                                               value="17194782488582577862">
+        </form>
+    </div>
+</div>
+<script type="text/javascript">(function () {
+    $("#kw2").focus(function () {
+        $(".bottom-box-tips").hide();
+    });
+    $("#kw2").blur(function () {
+        $(".bottom-box-tips").show();
+    });
+})();</script>                        <!-- 百度反馈入口 -->
+<div class="feedback-icon" id="bd-feedback"></div>
+<script type="text/javascript" src="/static/js/feedback.js"></script>
+</body>
+<script>        var cse = cse || {};
+cse.param = {
+    'filters': [] || {},
+    'sorts': "" || "",
+    'searchType': 0 || "",
+    'searchTimeRange': 0 || "",
+    'nsid': "0",
+    'inurl': null || "",
+    'cid': null || "",
+    'wt': null || "",
+    'ht': null || "",
+    'h': null || "",
+    'pn': null || "",
+    'nojc': null || ""
+};
+cse.util = {
+    'makeParam': function (arr) {
+        var sb = [];
+        for (var key in arr) {
+            if (arr[key] && typeof(arr[key]) != "function") {
+                sb.push(key + "=" + encodeURIComponent(arr[key]));
+            }
+        }
+        return sb.join("&");
+    }, 'addParam': function (dom, key, value) {
+        if (dom && key && value) {
+            var ipt = document.createElement("input");
+            ipt.type = "hidden";
+            ipt.name = key;
+            ipt.value = value;
+            dom.appendChild(ipt);
+        }
+    }, 'select': function (k, v, action) {
+        if (action == "filter") {
+            cse.param.filters[k] = decodeURIComponent(v);
+        } else if (action == "sort") {
+            cse.param.sorts = v;
+        } else if (action == "type") {
+            cse.param.searchType = v;
+        } else if (action == "time") {
+            cse.param.searchTimeRange = v;
+        }
+        var filterValue = cse.util.makeParam(cse.param.filters);
+        var f3 = document.getElementById("f3");
+        cse.util.addParam(f3, "flt", filterValue);
+        cse.util.addParam(f3, "srt", cse.param.sorts);
+        cse.util.addParam(f3, "stp", cse.param.searchType);
+        cse.util.addParam(f3, "sti", cse.param.searchTimeRange);
+        cse.util.addParam(f3, "nsid", cse.param.nsid);
+        cse.util.addParam(f3, "inurl", cse.param.inurl);
+        cse.util.addParam(f3, "cid", cse.param.cid);
+        cse.util.addParam(f3, "wt", cse.param.wt);
+        cse.util.addParam(f3, "ht", cse.param.ht);
+        cse.util.addParam(f3, "h", cse.param.h);
+        cse.util.addParam(f3, "pn", cse.param.pn);
+        cse.util.addParam(f3, "nojc", cse.param.nojc);
+        f3.submit();
+    }, 'switchFilter': function (obj) {
+        var id = obj.getAttribute("data-for"), exp = (obj.getAttribute("data-exp") == "0"),
+            con = document.getElementById("flt-" + id), flts = con.getElementsByTagName("DD");
+        for (var i = 0, len = flts.length; i < len; i++) {
+            var flt = flts[i];
+            if (exp) {
+                flt.style.display = "block";
+            } else {
+                if (flt.getAttribute("data-limit") == "1") {
+                    flt.style.display = "none";
+                }
+            }
+        }
+        obj.setAttribute("data-exp", exp ? "1" : "0");
+        obj.className = exp ? "filterLimitExp" : "filterLimit";
+    }
+};
+
+function calcPageHeight(doc) {
+    var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight);
+    var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+    var height = Math.max(cHeight, sHeight);
+    return height.toString();
+};window.onload = function () {
+    document.forms[0].reset();
+    document.forms[document.forms.length - 1].reset();
+    if (top && top.location !== self.location) {
+        if ((navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE6.0") || (navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE7.0")) {
+            if (top.name) {
+                top.name = calcPageHeight(document);
+            }
+        } else {
+            if (top.postMessage) {
+                window.attachEvent ? window.attachEvent('onmessage', function (event) {
+                    top.postMessage(calcPageHeight(document), '*');
+                }) : window.addEventListener('message', function (event) {
+                    top.postMessage(calcPageHeight(document), '*');
+                }, false);
+                top.postMessage(0, '*');
+            } else if (top.name) {
+                top.name = calcPageHeight(document);
+            }
+        }
+    }
+};
+$(".result-item a").click(function () {
+    var pageLog = {};
+    pageLog["q"] = "";
+    pageLog["click"] = "1";
+    pageLog["s"] = "17194782488582577862";
+    pageLog["nsid"] = "";
+    pageLog["isNeedCheckDomain"] = "";
+    log.send("/api/customsearch/click", pageLog, {
+        rpos: parseInt($(this).parents(".result-item").index(".result-item")) + 1,
+        uid: $(this).attr("href"),
+        tid: "2",
+        cpos: $(this).attr("cpos"),
+        cc: 'bqg5200.com',
+        from: 'normal'
+    });
+});    </script>
+<script></script>
+</html>
