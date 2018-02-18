@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Symfony\Component\Console\Input\Input;
 
 class RegisterController extends Controller
 {
@@ -51,6 +54,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'invite-code'=>'nullable|string'
         ]);
     }
 
@@ -63,11 +67,44 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        return User::create([
+
+        $newUser=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'share'=>md5(uniqid(time()))
+            'share'=>0
         ]);
+        $userId=DB::table('users')->select('id')->where(['email'=>$data['email']])->first();
+        debugbar()->info($userId);
+        $userId=$userId->id;
+        $parentId=0;
+        $path=0;
+        $parentPath=0;
+        $level=0;
+        if(!empty($data['invite-code'])){
+            $parent=DB::table('users')->select('path','id')->where(['share'=>$data['invite-code']])->first();
+            if(!empty($parent)){
+                $parentId=$parent->id;
+                $parentPath=$parent->path;
+                debugbar()->info($parentId);
+                debugbar()->info($parentPath);
+                $path=$parentPath.'_'.$userId;
+                $array=explode('-',$path);
+                $level=count($array);
+            }
+
+        }
+
+        $shareKey=KEY+$userId;
+        debugbar()->info($shareKey);
+        $update=DB::table('users')->where(['email'=>$data['email']])
+            ->update(['share'=>KEY+$userId,
+                      'parent_id'=>$parentId,
+                      'path'=>$path,
+                      'parent_path'=>$parentPath,
+                      'level'=>$level]);
+
+        debugbar()->info($update);
+        return $newUser;
     }
 }

@@ -8,7 +8,7 @@ class BooksController extends Controller
 {
     //
     function getCatalogue($c1,$c2){
-        $t=file_get_contents("http://www.bqg5200.com/xiaoshuo/{$c1}/{$c2}");
+        $t=file_get_contents("https://www.bqg5200.com/xiaoshuo/{$c1}/{$c2}");
         $content=iconv("gb2312", "utf-8//IGNORE",$t);
        // preg_match_all("/<li class=\"fj\"><h3>正文<\/h3><div class=\"border-line\"><\/div> <\/li>(.+)<div class=\"all_ad clearfix mtop\" id=\"ad_980_2\"><\/div>/",$content,$list);
         $content=strstr($content,"<li class=\"fj\"><h3>正文</h3><div class=\"border-line\"></div> </li>");
@@ -35,7 +35,7 @@ class BooksController extends Controller
     }
 
     function getContent($c1,$c2,$c3){
-        $t=file_get_contents("http://www.bqg5200.com/xiaoshuo/{$c1}/{$c2}/{$c3}.html");
+        $t=file_get_contents("https://www.bqg5200.com/xiaoshuo/{$c1}/{$c2}/{$c3}.html");
         $content=iconv("gb2312", "utf-8//IGNORE",$t);
         preg_match("/<h1>(.*)<\/h1>/",$content,$header);
        preg_match("/<div class=\"kongwei\"><\/div><div class=\"ad250left\">(.*)/",$content,$detail);

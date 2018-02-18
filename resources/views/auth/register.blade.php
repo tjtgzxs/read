@@ -60,6 +60,13 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="invite-code" class="col-md-4 control-label">邀请码</label>
+
+                            <div class="col-md-6">
+                                <input id="invite-code" type="" class="form-control" name="invite-code">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

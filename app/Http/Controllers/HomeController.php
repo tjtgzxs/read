@@ -37,8 +37,9 @@ class HomeController extends Controller
 
     /**
      * 获取内容
-     * @param string $search
-     *
+     * @param Request $request
+     * @param integer $page
+     * @return \Illuminate\Http\Response
      */
     public function getContent(Request $request,$page=0)
     {
