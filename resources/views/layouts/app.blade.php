@@ -29,8 +29,13 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', '我爱阅读') }}
                     </a>
+                    <!-- share Info-->
+                    @guest
+                        @else
+                    <p class="media-middle">欢迎您分享分享可获得积分,您的分享码是:{{Auth::user()->share}}</p>
+                    @endguest
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">

@@ -91,7 +91,7 @@ class HomeController extends Controller
         //get img
         preg_match_all('/class="result-game-item-pic-link" target="_blank" style="width:110px;height:150px;">                <img src="(.*?)" alt="/',$content,$img);
         foreach ($img[1] as $key=>$value){
-            $result[$key]['img']=$value;
+            $result[$key]['img']=substr_replace($value,'s',4,0);
         }
         //get link
         preg_match_all('/<a cpos="title" href="(.*?)" title/',$content,$link);
